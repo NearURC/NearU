@@ -1,0 +1,44 @@
+<html>
+    <head>
+         <title>NEAR U</title>
+   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+   <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <style>
+        body        { padding-top:80px; }
+	
+    </style>
+        
+        <!-- Include Jquery here in a script tag -->
+        <!-- <script type="text/javascript">
+            /*function tryLoad(){
+            $(document).ready(function(){
+                 $("#activities").click(function(){
+                     $("#body").load(list);
+                     
+                 });
+            });
+            }*/
+        </script> -->
+    </head>
+    <body>
+        <br>
+        <div id="body">
+            <!-- All content will be loaded here dynamically -->
+            <ul>
+            <% for(var i=0 ; i<list.length ; i++){ %>
+                 <li><a href='https://facebook.com/<%=list[i].split('_,_')[1]%>'> <strong> <font color="FFFFFF"><%= list[i].split('_,_')[0] %>: </strong> <%=list[i].split('_,_')[2] %> </font></a></li>
+            <% } %>
+            </ul>
+        </div>
+        <div id="header">
+            <a href="http://nearu-nearu.c9users.io/fbrefresh"><button>Controlla le notifiche</button></a>
+            <br>
+            (Aspettare qualche secondo prima di controllare le notifiche)
+            <br>
+            <!-- this stays the same -->
+        </div>
+        <div id="footer">
+            <a href="http://nearu-nearu.c9users.io/fbstop"><button>Esci</button></a>
+        </div>
+    </body>
+</html> 

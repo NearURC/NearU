@@ -1,0 +1,357 @@
+<!-- views/socials.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NEAR U</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">	
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="css/font-awesome.min.css"> <!-- load fontawesome -->
+    <script src="map/js/jquery.min.js"></script>
+    <script src="map/js/bootstrap.min.js"></script>
+  <!-- script aggiunto-->
+
+  <script type="text/javascript">
+  function resizeIframe(obj){
+     obj.style.height = 0;
+     obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+  }
+</script>
+<script src='map/index.js'></script>
+<script>
+	$(document).ready(function(){
+		var name=window.location.pathname.split('@')[1]
+		name=decodeURIComponent(name);
+		$('#placessocials h3#titolo').html('Socials di '+name); 
+		var token= $('span#fbtoken').html(); //?
+	});
+</script>
+
+    <style>
+body { 
+    padding-top:15px;
+    word-wrap:break-word;
+    position: relative; 
+    height: 100%;
+}
+
+    #largeImgPanel {
+                text-align: center;
+                display: none;
+                position: fixed;
+                z-index: 100;
+                top: 0; left: 0; width: 100%; height: 100%;
+                background-color: rgba(100,100,100, 0.5);
+            }
+
+#profile {padding-top:10px;color: #fff; background-color: #000; height:775px;}
+#profile2 {padding-top:50px;color: #fff; background-color: #673ab7;}
+#cronologia {padding-top:50px;color: #fff; background-color: #ff9800; height:700px;}
+#placessocials {padding-top:50px;color: #fff; background-color: #0f9800; height:700px;}
+#box-fb {color: #FFF; background-color: #428bca;}  
+#box-tw {color: #FFF; background-color: #5bc0de;}   
+#box-g {color: #FFF; background-color: #d9534f;}
+#paginafb {padding-top:20px; padding-bottom:20px; color: #FFF; background-color: #428bca;}  
+#paginatw {padding-top:20px; padding-bottom:20px; color: #FFF; background-color: #5bc0de;}   
+    </style>
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
+     <div class="page-header text-center">
+<img src="logo.png">
+    </div>   
+  	<!--Inizio Tab Navigazione-->  
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	 <div class="container-fluid">
+    	<div class="navbar-header">
+    	  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">Near U</a>
+		    </div>
+    <div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+		  <ul class="nav navbar-nav" >
+   			<li><a href="#profile2">Profilo</a></li>
+  		  	<li><a href="#cronologia">Cronologia</a></li>
+  		  	<li><a href="#placessocials">Place's socials</a></li>
+		  </ul>
+    </div>
+   </div>
+ </div>
+</nav>  
+
+		<div id="placessocials" class="container-fluid">
+	      <h3 id='titolo'>Place's Socials</h3>
+	      <!-- organizzazione dati -->
+
+	      <!-- FACEBOOK INFORMATION -->
+	      <% if(place.facebook.id == 'UNDEFINED'){ %>
+	      	Pagina Facebook non trovata
+	      <% } else if(user.facebook.token){ %>
+	      		<% if(place.facebook.found == 'NOTFOUND'){ %>
+					Pagina Facebook non trovata. Pagina più simile al risultato cercato: <br>
+	      		<% } %>
+		      <div id="paginafb" class="pill">
+		      	<br/>
+		      	<div id='img'>
+		      		 <% if (place.facebook.img!='[object Object]' && place.facebook.img!=undefined) { %> <!-- && place.facebook.img != ''-->
+				                 <img src= <%= place.facebook.img %>  > <br>
+				                 <% } else { %>
+				                     Immagine del profilo non disponibile <!-- da togliere -->
+				                 <% } %>
+		      		</div> <br/> 
+		      	<strong id='titolofb'>
+		      			<% if (place.facebook.titolo!='[object Object]' && place.facebook.titolo!=undefined) { %> 
+				                 <a href='https://facebook.com/<%= place.facebook.id %>'> <font color="242424"> <%= place.facebook.titolo %> </font> </a> <br>
+				                 <% } else { %>
+				                     Titolo facebook non disponibile <!-- da togliere -->
+				                 <% } %>
+		      	</strong> <br/>
+		      	
+		      	<div id='descrizionefb'>
+		      		<strong> Descrizione: </strong>
+		      		<% if (place.facebook.desc!='[object Object]'&& place.facebook.desc!=undefined) { %> 
+		                  <%= place.facebook.desc %><br>
+	                 <% } else { %>
+	                     Descrizione non disponibile <!-- da togliere -->
+	                 <% } %>
+		      	</div> <br/>
+		      	
+		      	<div id='likes'>
+		      		<% if (place.facebook.likes!='[object Object]'&& place.facebook.likes!=undefined) { %> 
+				                 <%= place.facebook.likes %> <img src=http://3.bp.blogspot.com/-hAGFrD9WwK8/VM5HjZ6ZmoI/AAAAAAAABsw/j9y_0pEF1Zg/s1600/facebook-like-icon[1].png> <br>
+				                 <% } else { %>
+				                     Likes non disponibili  <!-- da togliere -->
+				                 <% } %>
+		      		</div> <br/>
+		      	<div id='tel'>
+		      		<% if (place.facebook.tel!='[object Object]'&& place.facebook.tel!=undefined) { %> 
+				                 <strong>Telefono: </strong> <%= place.facebook.tel %><br>
+				                 <% } else { %>
+				                     Telefono non disponibile  <!-- da togliere -->
+				                 <% } %>
+		      		</div> <br/>
+		      	<div id='cooks'>
+		      		<% if (place.facebook.cooks!='[object Object]'&& place.facebook.cooks!=undefined) { %> 
+				                 <strong>Team culinario: </strong> <%= place.facebook.cooks %><br>
+				                 <% } else { %>
+				                     Team culinario non disponibile  <!-- da togliere -->
+				                 <% } %>
+		      		</div> <br/> 
+		      		
+		      		<div id='photos'>
+		      		<% if (place.facebook.photos.one!='[object Object]'&& place.facebook.photos.one!='') { %> 
+				                 <img src= <%= 'http://graph.facebook.com/'+ place.facebook.photos.one +'/picture'%> height=200px>
+				                 <% if (place.facebook.photos.one!='[object Object]'&& place.facebook.photos.one!='') { %> 
+				                  <img src= <%= 'http://graph.facebook.com/'+ place.facebook.photos.two +'/picture'%> height=200px>
+				                 <% } %>
+				                 <% if (place.facebook.photos.one!='[object Object]'&& place.facebook.photos.one!='') { %> 
+				                 <img src= <%= 'http://graph.facebook.com/'+ place.facebook.photos.three +'/picture'%> height=200px>
+				                 <% } %>
+	                 <% } else { %>
+	                     Foto non disponibili <!-- da togliere -->
+	                 <% } %>
+		      		</div> <br/> 
+		      		
+		      </div>
+
+	      <% } %>
+	      <!-- FINE FACEBOOK INFORMATION -->
+	      
+	      <!-- TWITTER INFORMATION -->
+	      <% if(user.twitter.token){ %>
+		      <div id="paginatw" class="pill">
+		      	<% if (place.twitter.name!='') { %>
+			      	<img src= <%= place.twitter.img %> >  <br/> <br/>
+			      	<a href='https://twitter.com/<%= place.twitter.name %>'> <font color="242424"> <strong>  <%= place.twitter.name %> </strong>  </font> </a> <br/><br/>
+			      	<% if (place.twitter.banner!=undefined) { %>
+			      		<img src= <%= place.twitter.banner %>  width=600px> <br/><br/>
+			      	<% } %>
+			      	<br/> 		      	
+			      	<strong> followers: </strong> <%= place.twitter.followers %>  <br/>
+	
+			      	 <br/>
+			      
+			      
+			      <div id='pagesTweets'>
+			      		<strong> Tweets della pagina: </strong> <br/>
+			      		<% if (place.twitter.pagesTweets.one.txt != '') { %> 
+			                  <a href='https://twitter.com/<%=place.twitter.name%>/status/<%=place.twitter.pagesTweets.one.id%>'> <font color="4B4B4B"> <%= place.twitter.pagesTweets.one.txt %> </font> </a> <br/>
+			                 <% if (place.twitter.pagesTweets.one.media!='') { %>  
+			                 	<img src= '<%=place.twitter.pagesTweets.one.media%>' height=200px>  <br/> <br/> 
+			                 <% } %>
+			                  <% if (place.twitter.pagesTweets.two.txt!='') { %> 
+			                  		<a href='https://twitter.com/<%=place.twitter.name%>/status/<%=place.twitter.pagesTweets.two.id%>'> <font color="4B4B4B"> <%= place.twitter.pagesTweets.two.txt %> </font> </a> <br/>
+			                  		<% if (place.twitter.pagesTweets.two.media!='') { %>  
+			                 			<img src= '<%=place.twitter.pagesTweets.two.media%>' height=200px> <br/> <br/> 
+			                 		<% } %>
+			                  <% } %>
+			                  <% if (place.twitter.pagesTweets.three.txt!='') { %>
+			                 		 <a href='https://twitter.com/<%=place.twitter.name%>/status/<%=place.twitter.pagesTweets.three.id%>'> <font color="4B4B4B"> <%= place.twitter.pagesTweets.three.txt %> </font> </a> <br/>
+			                 		 <% if (place.twitter.pagesTweets.three.media!='') { %>  
+			                 			<img src= '<%=place.twitter.pagesTweets.three.media%>' height=200px>  <br/> <br/> 
+			                 		<% } %>
+			                 <% } %>
+		                 <% } else { %>
+		                     Tweets non disponibili <!-- da togliere -->
+		                 <% } %>
+			      	</div> 
+			      <% } else { %>
+	                 Pagina Twitter non disponibile <!-- da togliere -->
+	             <% } %>	
+		      
+		      	<br/>
+		      
+		      <div id='tweets'>
+		      		<strong> Tweets: </strong> <br/>
+		      		<% if (place.twitter.tweets.one.txt!='') { %>
+		      				<a href='https://twitter.com/statuses/<%=place.twitter.tweets.one.id%>' > <font color="4B4B4B"> <%= place.twitter.tweets.one.txt %> </font> </a> <br/>
+		      				<a href='https://twitter.com/statuses/<%=place.twitter.tweets.two.id%>' > <font color="4B4B4B"> <%= place.twitter.tweets.two.txt %> </font> </a> <br/>
+		      				<a href='https://twitter.com/statuses/<%=place.twitter.tweets.three.id%>' > <font color="4B4B4B"> <%= place.twitter.tweets.three.txt %> </font> </a> <br/>
+	                 <% } else { %>
+	                     Tweets non disponibili <!-- da togliere -->
+	                 <% } %>
+		      	</div> <br/>
+		      	
+		      	<div id='geoPhotos'>
+		      		<% if (place.twitter.geoPhotos.one!='') { %>  
+				                <strong> Geofoto : </strong> <br/> 
+				                 <img src= '<%=place.twitter.geoPhotos.one%>' height=200px>
+				                 <% if (place.twitter.geoPhotos.two!='') { %> 
+				                 <img src= '<%=place.twitter.geoPhotos.two%>' height=200px>
+				                 <% } %>
+				                 <% if (place.twitter.geoPhotos.three!='') { %> 
+				                 <img src= '<%=place.twitter.geoPhotos.three%>' height=200px>  <br><br>
+				                 <% } %>
+                  <% } else { %> 
+                      Geofoto non disponibili  <!-- da togliere -->
+                  <% } %>
+		      		</div> <br/>
+		      	<div id='photos'>
+		      		<% if (place.twitter.photos.one!='') { %> 
+				                <strong> Foto :  </strong> <br/> 
+				                 <img src= '<%=place.twitter.photos.one%>' height=200px> 
+				                 <% if (place.twitter.photos.two!='') { %> 
+				                 <img src= '<%=place.twitter.photos.two%>' height=200px> 
+				                 <% } %>
+				                 <% if (place.twitter.photos.three!='') { %> 
+				                 <img src= '<%=place.twitter.photos.three%>' height=200px>  <br><br>
+				                 <% } %>
+	                 <% } else { %>
+	                     Foto non disponibili  <!-- da togliere -->
+	                 <% } %>
+		      		</div> <br/>
+
+	      <% } %>
+	    </div>	
+	    <!-- FINE TWITTER INFORMATION -->
+	    
+	    <!-- FINE organizzazione dati -->
+
+		   <div id="profile2" class="container-fluid">
+			                 <h3><span class="fa fa-user"></span> Informazioni Account</h3>
+
+			                 <% if (user.local.email) { %>
+			                     <p>
+			                         <strong>id</strong>: <%= user._id %><br>
+			                         <strong>email</strong>: <%= user.local.email %><br>
+			                         <strong>password</strong>: <%= user.local.password %>
+			                     </p>					 
+		<!--Effettua il logout aggiunto e spostato dal top della pagina-->
+			        <a href="/logout" class="btn btn-default">Esci</a>
+			                     <a href="/unlink/local" class="btn btn-default">Scollega account locale</a>
+			                 <% } else { %>
+			                     <a href="/connect/local" class="btn btn-default">Connettiti</a>
+			                 <% } %>
+
+            
+			 <h3>Collega i Social per cercare gli amici nelle vicinanze.</h3>
+
+			         <!-- FACEBOOK INFORMATION -->
+			 <div id="box-fb" class="pill">
+			                 <h3 class="text-fb"><span class="fa fa-facebook"></span> Facebook
+			                 <% if (user.facebook.token) { %>
+			                 	<br/>
+			                 	<a href="/unlink/facebook" class="btn btn-fb">Esci da Facebook</a>
+			                 <% } %>
+			                 </h3>
+			                     
+			                 <!-- check if the user has this token (is the user authenticated with this social account) -->
+			                 <% if (user.facebook.token) { %>
+			                     <p>
+			                         <strong>id</strong>: <%= user.facebook.id %><br>
+			                         <strong>token</strong>: <span id='fbtoken'><%= user.facebook.token %></span><br>
+			                         <strong>email</strong>: <%= user.facebook.email %><br>
+			                         <strong>name</strong>: <%= user.facebook.name %><br>
+			                     </p>
+
+
+			                 <% } else { %>
+			                     <a href="/connect/facebook" class="btn btn-fb">Connetti Facebook</a>
+			                 <% } %>
+
+
+			 </div>
+			         <!-- TWITTER INFORMATION -->
+			 <div id="box-tw" class="pill">
+			                 <h3 class="text-tw"><span class="fa fa-twitter"></span> Twitter
+			                 <% if (user.twitter.token) { %>
+			               		<br/>
+			                 	<a href="/unlink/twitter" class="btn btn-tw">Esci da Twitter</a>
+			                 <% } %>
+					</h3>
+			                 <!-- check if the user has this token (is the user authenticated with this social account) -->
+			                 <% if (user.twitter.token) { %>
+			                     <p>
+			                         <strong>id</strong>: <%= user.twitter.id %><br>
+			                         <strong>token</strong>: <%= user.twitter.token %><br>
+			                         <strong>display name</strong>: <%= user.twitter.displayName %><br>
+			                         <strong>username</strong>: <%= user.twitter.username %>
+			                     </p>
+
+			                     <form action='/twitter/send_tweet' method='post'>
+			                         <div class='form-group'>
+			                         <label>Text</label>
+			                         <input type='Twitta' class='form-cotroll' name='tweet'>
+			                         <button type='submit' class='btn btn-primary'>invio></button>
+			                         </div>
+			                     </form>
+			                 <% } else { %>
+			                     <a href="/connect/twitter" class="btn btn-tw">Connetti Twitter</a>
+			                 <% } %>
+
+			 </div>
+			         <!-- GOOGLE INFORMATION -->
+			 <div id="box-g" class="pill">
+			                 <h3 class="text-google"><span class="fa fa-google-plus"></span> Google+
+			                 <% if (user.google.token) { %>
+			                 	<br/>
+			                 	<a href="/unlink/google" class="btn btn-google">Esci da Google+</a>
+			                 <% } %>
+							</h3>
+			                 <!-- check if the user has this token (is the user authenticated with this social account) -->
+			                 <% if (user.google.token) { %>
+			                     <p>
+			                         <strong>id</strong>: <%= user.google.id %><br>
+			                         <strong>token</strong>: <%= user.google.token %><br>
+			                         <strong>email</strong>: <%= user.google.email %><br>
+			                         <strong>name</strong>: <%= user.google.name %>
+			                     </p>
+			                 <% } else { %>
+			                     <a href="/connect/google" class="btn btn-google">Connetti Google</a>
+			                 <% } %>
+
+			 </div>
+			         </div>
+	   <div id="cronologia" class="container-fluid">
+	      <h3>Cronologia</h3>
+	      <p>Questa è la tua cronologia passata.</p>
+	    </div>
+			 
+			  
+
+			  
+</body>
+</html>

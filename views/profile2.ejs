@@ -1,0 +1,181 @@
+<!-- views/profile.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NEAR U</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">	
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="css/font-awesome.min.css"> <!-- load fontawesome -->
+  <script src="map/js/jquery.min.js"></script>
+  <script src="map/js/bootstrap.min.js"></script>
+  <script src="//maps.googleapis.com/maps/api/js?v=3.exp&&libraries=places&sensor=true"></script>
+  <!-- script aggiunto-->
+
+  <script type="text/javascript">
+  function resizeIframe(obj){
+     obj.style.height = 0;
+     obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+  }
+</script>
+
+    <style>
+body { 
+    padding-top:0px;
+    word-wrap:break-word; 
+
+}
+   
+ul#menu {
+    font-family: Verdana, sans-serif;
+    font-size: 11px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+  
+ul#menu li {
+    background-color: #FF831C;
+    border-bottom: 5px solid #54BAE2;
+    display: block;
+    width: 150px;
+    height: 30px;
+    margin: 2px;
+    float: left; /* elementi su singola riga */
+}
+  
+ul#menu li a {
+    color: #fff;
+    display: block;
+    font-weight: bold;
+    line-height: 30px;
+    text-decoration: none;
+    width: 150px;
+    height: 30px;
+    text-align: center;
+}
+  
+ul#menu li.active, ul#menu li:hover {
+    background-color: #54BAE2;
+    border-bottom: 5px solid #FF831C;
+}
+    </style>
+</head>
+<body>
+
+    <div class="page-header text-center">
+<img src="logo.png">
+    </div>
+
+	<!--Inizio Tab Navigazione-->
+	
+		<div class="container">
+		  <ul class="nav nav-pills" id="menu">
+	  	    <li><a href="/profile">Near U</a></li>
+   			<li class="active"><a href="#profile2">Profilo</a></li>
+  		  	<li><a href="#cronologia">Cronologia Ricerche</a></li>
+    		<li><a href="#menu3">Menu 3</a></li>
+
+		  </ul>
+  
+		  <div class="tab-content">
+
+		    <div id="profile2" class="tab-pane fade in active">
+			             <div class="well">
+			                 <h3><span class="fa fa-user"></span> Informazioni Account</h3>
+
+			                 <% if (user.local.email) { %>
+			                     <p>
+			                         <strong>id</strong>: <%= user._id %><br>
+			                         <strong>email</strong>: <%= user.local.email %><br>
+			                         <strong>password</strong>: <%= user.local.password %>
+			                     </p>					 
+		<!--Effettua il logout aggiunto e spostato dal top della pagina-->
+			        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+			                     <a href="/unlink/local" class="btn btn-default">Unlink</a>
+			                 <% } else { %>
+			                     <a href="/connect/local" class="btn btn-default">Connettiti</a>
+			                 <% } %>
+
+            
+			 <h3>Collega i Social per cercare gli amici nelle vicinanze.</h3>
+
+			         <!-- FACEBOOK INFORMATION -->
+			 <div class="badge">
+			                 <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
+
+			                 <!-- check if the user has this token (is the user authenticated with this social account) -->
+			                 <% if (user.facebook.token) { %>
+			                     <p>
+			                         <strong>id</strong>: <%= user.facebook.id %><br>
+			                         <strong>token</strong>: <%= user.facebook.token %><br>
+			                         <strong>email</strong>: <%= user.facebook.email %><br>
+			                         <strong>name</strong>: <%= user.facebook.name %><br>
+			                     </p>
+
+			                     <a href="/unlink/facebook" class="btn btn-primary">Unlink</a>
+
+			                 <% } else { %>
+			                     <a href="/connect/facebook" class="btn btn-primary">Connect Facebook</a>
+			                 <% } %>
+
+
+			 </div>
+			         <!-- TWITTER INFORMATION -->
+			 <div class="badge">
+			                 <h3 class="text-info"><span class="fa fa-twitter"></span> Twitter</h3>
+
+			                 <!-- check if the user has this token (is the user authenticated with this social account) -->
+			                 <% if (user.twitter.token) { %>
+			                     <p>
+			                         <strong>id</strong>: <%= user.twitter.id %><br>
+			                         <strong>token</strong>: <%= user.twitter.token %><br>
+			                         <strong>display name</strong>: <%= user.twitter.displayName %><br>
+			                         <strong>username</strong>: <%= user.twitter.username %>
+			                     </p>
+
+			                     <a href="/unlink/twitter" class="btn btn-info">Unlink</a>
+			                     <form action='/twitter/send_tweet' method='post'>
+			                         <div class='form-group'>
+			                         <label>Text</label>
+			                         <input type='text' class='form-cotroll' name='tweet'>
+			                         </div>
+			                         <button type='submit' class='btn btn-primary'>invio></button>
+			                     </form>
+			                 <% } else { %>
+			                     <a href="/connect/twitter" class="btn btn-info">Connect Twitter</a>
+			                 <% } %>
+
+			 </div>
+			         <!-- GOOGLE INFORMATION -->
+			 <div class="badge">
+			                 <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google+</h3>
+
+			                 <!-- check if the user has this token (is the user authenticated with this social account) -->
+			                 <% if (user.google.token) { %>
+			                     <p>
+			                         <strong>id</strong>: <%= user.google.id %><br>
+			                         <strong>token</strong>: <%= user.google.token %><br>
+			                         <strong>email</strong>: <%= user.google.email %><br>
+			                         <strong>name</strong>: <%= user.google.name %>
+			                     </p>
+
+			                     <a href="/unlink/google" class="btn btn-danger">Unlink</a>
+			                 <% } else { %>
+			                     <a href="/connect/google" class="btn btn-danger">Connect Google</a>
+			                 <% } %>
+
+			 </div>
+			         </div>
+		</div>
+
+</div>			  
+<div id="map">
+	
+</div>
+		    </div>
+		  </div>
+		</div>
+		
+</body>
+</html>
